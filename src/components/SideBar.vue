@@ -7,18 +7,18 @@
             <i class="bx bx-menu"></i>
           </vs-button>
         </template>
-        <!-- search bar here -->
-        <vs-navbar-item :active="active == 'components'" id="components">search bar</vs-navbar-item>
+        <vs-input icon="search" placeholder="rechercher" v-model="searchValue" />
+        <vs-button success flat :active="active == 1" @click="active = 1">Chercher</vs-button>
         <template #right>
           <div class="student-infos">
-            <div class="bloc1">
-              <vs-button flat>
-                <span>name</span>
-              </vs-button>
-            </div>
-            <div class="bloc2">
-              <!-- image here -->
-            </div>
+            <vs-button flat>
+              <span>name</span>
+            </vs-button>
+            <vs-avatar>
+              <i class="bx bx-user"></i>
+
+              <!-- <img src="@/assets/logo.png" alt /> -->
+            </vs-avatar>
           </div>
 
           <vs-button flat>Deconnexion</vs-button>
@@ -47,13 +47,13 @@
         </vs-sidebar-item>
         <vs-sidebar-item id="drink">
           <template #icon>
-            <i class="bx bx-detail"></i>
+            <i class="bx bx-code-block"></i>
           </template>
           <router-link class="sideBar-link" to="/Planning">Planning</router-link>
         </vs-sidebar-item>
         <vs-sidebar-item id="shopping">
           <template #icon>
-            <i class="bx bxs-detail"></i>
+            <i class="bx bx-detail"></i>
           </template>
           <router-link class="sideBar-link" to="/Immersion">Immersion</router-link>
         </vs-sidebar-item>
@@ -77,7 +77,8 @@
 export default {
   data: () => ({
     active: "home",
-    activeSidebar: false
+    activeSidebar: false,
+    searchValue: ""
   })
 };
 </script>
@@ -87,5 +88,12 @@ export default {
 .sideBar-link {
   text-decoration: none;
   color: black;
+}
+
+.student-infos {
+  margin-top: 1%;
+  display: flex;
+  flex-direction: row;
+  margin-right: 5%;
 }
 </style>
