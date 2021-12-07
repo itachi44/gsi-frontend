@@ -5,6 +5,8 @@ import Programme from '../views/Programme.vue'
 import Planning from '../views/Planning.vue'
 import Immersion from '../views/Immersion.vue'
 import Messagerie from '../views/Messagerie.vue'
+import Login from '../views/Login.vue'
+
 
 
 
@@ -13,7 +15,12 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/Accueil',
+    name: 'Accueil',
     component: Home
   },
   {

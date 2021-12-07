@@ -3,19 +3,28 @@
     <div class="hidden">
       <vs-navbar shadow square center-collapsed v-model="active">
         <template #left>
-          <vs-button @click="activeSidebar = !activeSidebar" flat icon>
-            <i class="bx bx-menu"></i>
+          <vs-button
+            style="color:black; background-color:#fff;"
+            @click="activeSidebar = !activeSidebar"
+            flat
+            icon
+          >
+            <i class="bx bx-menu bx-sm"></i>
+            {{loggedIn}}
           </vs-button>
         </template>
+
         <vs-input icon="search" placeholder="rechercher" v-model="searchValue" />
+        <i class="bx bx-search bx-xs"></i>
+
         <vs-button success flat :active="active == 1" @click="active = 1">Chercher</vs-button>
         <template #right>
           <div class="student-infos">
-            <vs-button flat>
+            <vs-button flat :active="active == 5" @click="active = 5">
               <span>name</span>
             </vs-button>
-            <vs-avatar>
-              <i class="bx bx-user"></i>
+            <vs-avatar class="user-avatar">
+              <i class="bx bx-user bx-sm"></i>
 
               <!-- <img src="@/assets/logo.png" alt /> -->
             </vs-avatar>
@@ -74,12 +83,19 @@
 </template>
 
   <script>
+import { mapState } from "vuex";
+
 export default {
   data: () => ({
     active: "home",
     activeSidebar: false,
     searchValue: ""
-  })
+  }),
+  computed: {
+    ...mapState({
+      loggedIn: "loggedIn"
+    })
+  }
 };
 </script>
 
@@ -96,4 +112,15 @@ export default {
   flex-direction: row;
   margin-right: 5%;
 }
+
+.user-avatar {
+  transform: scale(0.8);
+}
+
+.bx-search {
+  position: relative;
+  right: 10%;
+}
+
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 </style>

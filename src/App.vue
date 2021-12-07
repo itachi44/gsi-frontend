@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- si connecté affiche page home avec sidebar sinon page login -->
     <SideBar />
     <br />
     <router-view></router-view>
