@@ -1,12 +1,12 @@
 <template>
-  <div class="home">hello world</div>
+  <div class="content">Internship here</div>
 </template>
 
 <script>
 // @ is an alias to /src
 
 export default {
-  name: "Home",
+  name: "Immersion",
   components: {}
 };
 </script>
