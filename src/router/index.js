@@ -6,6 +6,7 @@ import Planning from '../views/Planning.vue'
 import Immersion from '../views/Immersion.vue'
 import Messagerie from '../views/Messagerie.vue'
 import Login from '../views/Login.vue'
+import { Store } from 'vuex'
 
 
 
@@ -15,13 +16,15 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/Accueil',
-    name: 'Accueil',
-    component: Home
+    name: 'Home',
+    component: () => {
+      if (Store.state.loggedIn == true) {
+        console.log("connecté")
+        return Home
+      } else {
+        return Login
+      }
+    }
   },
   {
     path: '/Programme',

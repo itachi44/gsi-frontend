@@ -51,34 +51,34 @@
         <template #logo>
           <img src="@/assets/logo.png" />
         </template>
-        <vs-sidebar-item style="color:black;" class="home" id="home">
+        <vs-sidebar-item to="/Accueil" style="color:black;" class="home" id="home">
           <template #icon>
             <i class="bx bx-home"></i>
           </template>Accueil
         </vs-sidebar-item>
-        <vs-sidebar-item id="Programme">
+        <vs-sidebar-item to="/Programme" id="Programme">
           <template #icon>
             <i class="bx bxs-calendar"></i>
           </template>
-          <router-link class="sideBar-link" to="/Programme">Programme</router-link>
+          Programme
         </vs-sidebar-item>
-        <vs-sidebar-item id="Planning">
+        <vs-sidebar-item to="/Planning" id="Planning">
           <template #icon>
             <i class="bx bx-code-block"></i>
           </template>
-          <router-link class="sideBar-link" to="/Planning">Planning</router-link>
+          Planning
         </vs-sidebar-item>
-        <vs-sidebar-item id="Immersion">
+        <vs-sidebar-item to="/Immersion" id="Immersion">
           <template #icon>
             <i class="bx bx-detail"></i>
           </template>
-          <router-link class="sideBar-link" to="/Immersion">Immersion</router-link>
+          Immersion
         </vs-sidebar-item>
-        <vs-sidebar-item id="Messagerie">
+        <vs-sidebar-item to="/Messagerie" id="Messagerie">
           <template #icon>
             <i class="bx bx-envelope bx-envelope1"></i>
           </template>
-          <router-link class="sideBar-link" to="/Messagerie">Messagerie</router-link>
+          Messagerie
         </vs-sidebar-item>
         <template #footer>
           <vs-row justify="space-between">
