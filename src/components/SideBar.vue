@@ -49,7 +49,7 @@
       </vs-navbar>
       <vs-sidebar absolute v-model="active" :open.sync="activeSidebar">
         <template #logo>
-          <img src="@/assets/logo.png" />
+          <img src="@/assets/logo.svg" />
         </template>
         <vs-sidebar-item to="/Accueil" style="color:black;" class="home" id="home">
           <template #icon>
@@ -81,9 +81,7 @@
           Messagerie
         </vs-sidebar-item>
         <template #footer>
-          <vs-row justify="space-between">
-            <vs-avatar badge-color="danger" badge-position="top-right"></vs-avatar>
-          </vs-row>
+          <vs-row justify="space-between"></vs-row>
         </template>
       </vs-sidebar>
     </div>

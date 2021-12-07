@@ -6,7 +6,8 @@ import Planning from '../views/Planning.vue'
 import Immersion from '../views/Immersion.vue'
 import Messagerie from '../views/Messagerie.vue'
 import Login from '../views/Login.vue'
-import { Store } from 'vuex'
+import store from '../store/index.js'
+
 
 
 
@@ -18,8 +19,8 @@ const routes = [
     path: '/',
     name: 'Home',
     component: () => {
-      if (Store.state.loggedIn == true) {
-        console.log("connecté")
+      if (store.state.loggedIn == true) {
+        console.log(store.state.loggedIn)
         return Home
       } else {
         return Login
