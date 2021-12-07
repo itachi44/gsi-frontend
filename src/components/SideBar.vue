@@ -1,3 +1,6 @@
+
+// FF9900
+// CA7900
 <template>
   <div class="container">
     <div class="hidden">
@@ -10,7 +13,6 @@
             icon
           >
             <i class="bx bx-menu bx-sm"></i>
-            {{loggedIn}}
           </vs-button>
         </template>
 
@@ -43,30 +45,30 @@
         <template #logo>
           <!-- ...img logo -->
         </template>
-        <vs-sidebar-item id="home">
+        <vs-sidebar-item background="black" class="home" id="home">
           <template #icon>
             <i class="bx bx-home"></i>
           </template>Accueil
         </vs-sidebar-item>
-        <vs-sidebar-item id="donate">
+        <vs-sidebar-item id="Programme">
           <template #icon>
             <i class="bx bxs-calendar"></i>
           </template>
           <router-link class="sideBar-link" to="/Programme">Programme</router-link>
         </vs-sidebar-item>
-        <vs-sidebar-item id="drink">
+        <vs-sidebar-item id="Planning">
           <template #icon>
             <i class="bx bx-code-block"></i>
           </template>
           <router-link class="sideBar-link" to="/Planning">Planning</router-link>
         </vs-sidebar-item>
-        <vs-sidebar-item id="shopping">
+        <vs-sidebar-item id="Immersion">
           <template #icon>
             <i class="bx bx-detail"></i>
           </template>
           <router-link class="sideBar-link" to="/Immersion">Immersion</router-link>
         </vs-sidebar-item>
-        <vs-sidebar-item id="chat">
+        <vs-sidebar-item id="Messagerie">
           <template #icon>
             <i class="bx bx-envelope"></i>
           </template>
@@ -83,19 +85,12 @@
 </template>
 
   <script>
-import { mapState } from "vuex";
-
 export default {
   data: () => ({
     active: "home",
     activeSidebar: false,
     searchValue: ""
-  }),
-  computed: {
-    ...mapState({
-      loggedIn: "loggedIn"
-    })
-  }
+  })
 };
 </script>
 
@@ -122,5 +117,10 @@ export default {
   right: 10%;
 }
 
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+.home :active {
+  color: #ff9900 !important;
+}
+.home :active {
+  color: #ff9900 !important;
+}
 </style>
