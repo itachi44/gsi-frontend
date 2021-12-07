@@ -1,5 +1,5 @@
 
-// FF9900
+// F0DBBA
 // CA7900
 <template>
   <div class="container">
@@ -19,33 +19,39 @@
         <vs-input icon="search" placeholder="rechercher" v-model="searchValue" />
         <i class="bx bx-search bx-xs"></i>
 
-        <vs-button success flat :active="active == 1" @click="active = 1">Chercher</vs-button>
+        <vs-button
+          style="color:#CA7900; background-color:#F0DBBA;"
+          color="#F0DBBA"
+          flat
+          :active="active == 0"
+          @click="active = 0"
+        >Chercher</vs-button>
         <template #right>
           <div class="student-infos">
-            <vs-button flat :active="active == 5" @click="active = 5">
-              <span>name</span>
+            <vs-button flat color="#F0DBBA" :active="active == 5" @click="active = 5">
+              <span style="color:#CA7900;">Farimata Ngom</span>
             </vs-button>
-            <vs-avatar class="user-avatar">
-              <i class="bx bx-user bx-sm"></i>
-
-              <!-- <img src="@/assets/logo.png" alt /> -->
-            </vs-avatar>
+            <vs-button style="background-color:#fff;" class="user-avatar">
+              <i style="color:#000;" class="bx bx-user bx-sm"></i>
+            </vs-button>
           </div>
 
-          <vs-button flat>Deconnexion</vs-button>
-          <vs-button>
-            <i class="bx bx-bell"></i>
+          <vs-button flat color="#F0DBBA">
+            <span style="color:#CA7900;">Deconnexion</span>
           </vs-button>
-          <vs-button>
-            <i class="bx bx-envelope"></i>
+          <vs-button style="background-color:#fff;">
+            <i style="color:#000;" class="bx bx-bell bx-sm"></i>
+          </vs-button>
+          <vs-button style="background-color:#fff;">
+            <i style="color:#000;" class="bx bx-envelope bx-sm"></i>
           </vs-button>
         </template>
       </vs-navbar>
       <vs-sidebar absolute v-model="active" :open.sync="activeSidebar">
         <template #logo>
-          <!-- ...img logo -->
+          <img src="@/assets/logo.png" />
         </template>
-        <vs-sidebar-item background="black" class="home" id="home">
+        <vs-sidebar-item style="color:black;" class="home" id="home">
           <template #icon>
             <i class="bx bx-home"></i>
           </template>Accueil
@@ -70,7 +76,7 @@
         </vs-sidebar-item>
         <vs-sidebar-item id="Messagerie">
           <template #icon>
-            <i class="bx bx-envelope"></i>
+            <i class="bx bx-envelope bx-envelope1"></i>
           </template>
           <router-link class="sideBar-link" to="/Messagerie">Messagerie</router-link>
         </vs-sidebar-item>
@@ -117,10 +123,27 @@ export default {
   right: 10%;
 }
 
-.home :active {
+/* .home :active {
   color: #ff9900 !important;
+} */
+
+.vs-sidebar__item:after {
+  background-color: #ff9900 !important;
 }
-.home :active {
-  color: #ff9900 !important;
+
+.bx-home,
+.bxs-calendar,
+.bx-detail,
+.bx-envelope1,
+.bx-code-block {
+  color: #000;
+}
+
+.bx-home,
+.bxs-calendar,
+.bx-detail,
+.bx-envelope1,
+.bx-code-block {
+  color: ;
 }
 </style>

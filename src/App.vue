@@ -6,7 +6,8 @@
 
     <section v-else>
       <SideBar />
-      <br />
+      <div class="boxSize"></div>
+
       <router-view></router-view>
     </section>
   </div>
@@ -33,4 +34,7 @@ export default {
 };
 </script>
 <style >
+.boxSize {
+  margin-top: 5%;
+}
 </style>
