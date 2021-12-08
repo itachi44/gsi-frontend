@@ -17,9 +17,16 @@ export default new Vuex.Store({
 
       } else {
 
-        localStorage.setItem("token", JSON.stringify(state.token))
+        localStorage.setItem("token", JSON.stringify(state.token));
 
       }
+
+    },
+
+    //pour le loadind bar
+
+    setIsLoading(state, status) {
+      state.isLoading = status;
 
     }
   },

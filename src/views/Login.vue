@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
 
 export default {
   name: "Login",
@@ -66,8 +66,10 @@ export default {
     identifiantValue: ""
   }),
   methods: {
-    logInUser() {
-      this.axios
+    async logInUser() {
+      //affichage de la barre de chargement
+      this.$store.commit("setIsLoading", true);
+      await this.axios
         .post("/api/login")
         .then(response => {
           console.log(response.data);
@@ -75,6 +77,8 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      //enlever la barre de chargement
+      this.$store.commit("setIsLoading", false);
     }
   }
 };
