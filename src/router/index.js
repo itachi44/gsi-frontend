@@ -19,8 +19,8 @@ const routes = [
     path: '/',
     name: 'Home',
     component: () => {
-      if (store.state.loggedIn == true) {
-        console.log(store.state.loggedIn)
+      if (store.state.isAuthenticated == true) {
+        console.log(store.state.isAuthenticated)
         return Home
       } else {
         return Login

@@ -30,6 +30,10 @@ export default {
     ...mapState({
       loggedIn: "loggedIn"
     })
+  },
+  //récupérer les données du local storage avant la création de l'applicaton
+  beforeCreate() {
+    this.$store.commit("initializeStore");
   }
 };
 </script>
