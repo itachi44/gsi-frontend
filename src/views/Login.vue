@@ -10,7 +10,8 @@
       </div>
       <p class="headerText">Connectez-vous à votre compte</p>
       <br />
-      <div class="form">
+
+      <form @submit.prevent="logIn" class="inputs">
         <vs-input
           size="large"
           class="formInput"
@@ -40,9 +41,9 @@
         <br />
         <br />
         <vs-button
-          @click="logIn()"
+          button="submit"
           ref="button"
-          style="color:#CA7900; background-color:#CA7900; width:70%; border-radius:4%; transform:scale(1.2);"
+          style="margin-left:15%; color:#CA7900; background-color:#CA7900; width:65%; border-radius:4%; transform:scale(1.2);"
           color="#CA7900"
           flat
         >
@@ -53,7 +54,7 @@
         <div class="alert alert-danger" v-if="errors.length">
           <span v-for="error in errors" v-bind:key="error">{{ error }}</span>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -86,23 +87,29 @@ export default {
         identifiant: this.identifiant,
         mot_de_passe: this.password
       };
-      console.log(formData);
       //appel de l'api
       await this.axios
         .post("/api/login/", formData)
         .then(response => {
-          console.log(response.data);
           const token = response.data.token;
           this.$store.commit("setToken", token);
+          console.log(response.data);
 
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           localStorage.setItem("token", token);
           this.$store.state.isAuthenticated = true;
 
           //redirection vers la page accueil
-          console.log(this.$route.query.to || "/");
-          // const toPath = this.$route.query.to || "/";
-          // this.$router.push(toPath);
+          const toPath = this.$route.query.to || "/";
+          this.$router.push(toPath);
+          //aafichage d'un message de bienvenue
+          this.$vs.notification({
+            color: "success",
+            position: "bottom-left",
+            title: "Bienvenue",
+            text: "",
+            buttonClose: false
+          });
         })
         .catch(error => {
           if (error.response) {
@@ -116,14 +123,6 @@ export default {
 
             console.log(JSON.stringify(error));
           }
-          //  toast({
-          //         message: '',
-          //         type: 'is-danger',
-          //         dismissible: true,
-          //         pauseOnHover: true,
-          //         duration: 2000,
-          //         position: 'bottom-right',
-          //     })
         });
 
       //se souvenir de lui?
@@ -161,6 +160,9 @@ html {
   margin-bottom: 10%;
 }
 
+.inputs {
+  width: 80%;
+}
 .loginForm {
   width: 40%;
   display: flex;
@@ -197,5 +199,6 @@ html {
 .formInput {
   transform: scale(1.4);
   font-size: 0.7em;
+  margin-left: 28%;
 }
 </style>

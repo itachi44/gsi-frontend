@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     isAuthenticated: false,
     token: "",
-    isLoading: false
+    isLoading: false,
   },
   mutations: {
     //initialisation du local storage
@@ -42,6 +42,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
+
   },
   modules: {
   }

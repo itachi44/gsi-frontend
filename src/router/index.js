@@ -20,7 +20,6 @@ const routes = [
     name: 'Home',
     component: () => {
       if (store.state.isAuthenticated === true) {
-        console.log(store.state.isAuthenticated)
         return Home
       } else {
         return Login

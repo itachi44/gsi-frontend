@@ -13,6 +13,7 @@
       >
         <div style="margin-left:45%" class="lds-dual-ring"></div>
       </div>
+
       <router-view></router-view>
     </section>
   </div>
@@ -50,7 +51,8 @@ export default {
     ...mapState({
       isAuthenticated: "isAuthenticated"
     })
-  }
+  },
+  methods: {}
 };
 </script>
 <style  >

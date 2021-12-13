@@ -32,7 +32,7 @@
           </vs-button>
         </div>
 
-        <vs-button flat color="#F0DBBA">
+        <vs-button class="logoutBtn" @click="logout" flat color="#F0DBBA">
           <span style="color:#CA7900;">Deconnexion</span>
         </vs-button>
         <vs-button style="background-color:#fff;">
@@ -84,12 +84,25 @@
 </template>
 
   <script>
+import axios from "axios";
+
 export default {
   data: () => ({
     active: "home",
     activeSidebar: false,
     searchValue: ""
-  })
+  }),
+
+  methods: {
+    logout() {
+      axios.defaults.headers.common["Authorization"] = "";
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("userid");
+      this.$store.commit("removeToken");
+      this.$router.push("/");
+    }
+  }
 };
 </script>
 
@@ -121,5 +134,10 @@ export default {
 .bx-envelope1,
 .bx-code-block {
   color: #000;
+}
+
+.logoutBtn:active {
+  transform: scale(0.95);
+  background-color: #ca7900;
 }
 </style>
