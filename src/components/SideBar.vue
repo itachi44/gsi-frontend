@@ -32,7 +32,7 @@
           </vs-button>
         </div>
 
-        <vs-button class="logoutBtn" @click="logout" flat color="#F0DBBA">
+        <vs-button class="logoutBtn" @click="logout()" flat color="#F0DBBA">
           <span style="color:#CA7900;">Deconnexion</span>
         </vs-button>
         <vs-button style="background-color:#fff;">

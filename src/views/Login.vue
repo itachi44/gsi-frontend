@@ -32,10 +32,9 @@
         <br />
         <br />
         <div class="stuffs">
-          <vs-checkbox color="#CA7900" v-model="checkBox">Se souvenir de moi ?</vs-checkbox>
           <router-link
             to="/"
-            style="text-decoration:none; color:#CA7900; margin-top:2%; margin-left:20%; font-size:0.9em;"
+            style="text-decoration:none; color:#CA7900; margin-top:2%; margin-left:10%; font-size:0.9em;"
           >Mot de passe oublié ?</router-link>
         </div>
         <br />
@@ -68,7 +67,6 @@ export default {
   data: () => ({
     password: "",
     identifiant: "",
-    checkBox: "",
     errors: []
   }),
   methods: {
@@ -82,6 +80,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = "";
       //suppression du Token
       localStorage.removeItem("token");
+
       //les données
       const formData = {
         identifiant: this.identifiant,
@@ -97,7 +96,6 @@ export default {
 
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           localStorage.setItem("token", token);
-          this.$store.state.isAuthenticated = true;
 
           //redirection vers la page accueil
           const toPath = this.$route.query.to || "/";
@@ -156,7 +154,7 @@ html {
   flex-direction: row;
 }
 .image {
-  width: 60%;
+  width: 55%;
   margin-bottom: 10%;
 }
 
@@ -200,5 +198,11 @@ html {
   transform: scale(1.4);
   font-size: 0.7em;
   margin-left: 28%;
+}
+
+@media screen and (max-width: 1200px) {
+  .image {
+    display: none;
+  }
 }
 </style>
