@@ -1,90 +1,85 @@
-
-// F0DBBA
-// CA7900
 <template>
-  <div class="container">
-    <div class="hidden">
-      <vs-navbar shadow square center-collapsed v-model="active">
-        <template #left>
-          <vs-button
-            style="color:black; background-color:#fff;"
-            @click="activeSidebar = !activeSidebar"
-            flat
-            icon
-          >
-            <i class="bx bx-menu bx-sm"></i>
-          </vs-button>
-        </template>
-
-        <vs-input icon="search" placeholder="rechercher" v-model="searchValue" />
-        <i class="bx bx-search bx-xs"></i>
-
+  <div class="hidden">
+    <vs-navbar
+      style="height:9%;display:flex;"
+      class="navb"
+      shadow
+      square
+      center-collapsed
+      v-model="active"
+    >
+      <template #left>
         <vs-button
-          style="color:#CA7900; background-color:#F0DBBA;"
-          color="#F0DBBA"
+          style="color:black; background-color:#fff;"
+          @click="activeSidebar = !activeSidebar"
           flat
-          :active="active == 0"
-          @click="active = 0"
-        >Chercher</vs-button>
-        <template #right>
-          <div class="student-infos">
-            <vs-button flat color="#F0DBBA" :active="active == 5" @click="active = 5">
-              <span style="color:#CA7900;">Farimata Ngom</span>
-            </vs-button>
-            <vs-button style="background-color:#fff;" class="user-avatar">
-              <i style="color:#000;" class="bx bx-user bx-sm"></i>
-            </vs-button>
-          </div>
+          icon
+        >
+          <i class="bx bx-menu bx-sm"></i>
+        </vs-button>
+      </template>
+      <img style=" transform:scale(0.5);" src="@/assets/logo.svg" />
+      <span
+        style="font-size:1.5em; color:#000; font-family:Arial Narrow, sans-serif;"
+      >ENT gestion et suivi des immersions</span>
+      <template #right>
+        <div class="student-infos">
+          <vs-button flat color="#F0DBBA" :active="active == 5" @click="active = 5">
+            <span style="color:#CA7900;">Farimata Ngom</span>
+          </vs-button>
+          <vs-button style="background-color:#fff;" class="user-avatar">
+            <i style="color:#000;" class="bx bx-user bx-sm"></i>
+          </vs-button>
+        </div>
 
-          <vs-button flat color="#F0DBBA">
-            <span style="color:#CA7900;">Deconnexion</span>
-          </vs-button>
-          <vs-button style="background-color:#fff;">
-            <i style="color:#000;" class="bx bx-bell bx-sm"></i>
-          </vs-button>
-          <vs-button style="background-color:#fff;">
-            <i style="color:#000;" class="bx bx-envelope bx-sm"></i>
-          </vs-button>
+        <vs-button flat color="#F0DBBA">
+          <span style="color:#CA7900;">Deconnexion</span>
+        </vs-button>
+        <vs-button style="background-color:#fff;">
+          <i style="color:#000;" class="bx bx-bell bx-sm"></i>
+        </vs-button>
+        <vs-button style="background-color:#fff;">
+          <i style="color:#000;" class="bx bx-envelope bx-sm"></i>
+        </vs-button>
+      </template>
+    </vs-navbar>
+    <vs-sidebar absolute v-model="active" :open.sync="activeSidebar">
+      <template #logo>
+        <img src="@/assets/logo.svg" />
+      </template>
+      <vs-sidebar-item to="/Accueil" class="home" id="home">
+        <template #icon>
+          <i class="bx bx-home"></i>
+        </template>Accueil
+      </vs-sidebar-item>
+      <vs-sidebar-item to="/Programme" id="Programme">
+        <template #icon>
+          <i class="bx bxs-calendar"></i>
         </template>
-      </vs-navbar>
-      <vs-sidebar absolute v-model="active" :open.sync="activeSidebar">
-        <template #logo>
-          <img src="@/assets/logo.svg" />
+        Programme
+      </vs-sidebar-item>
+      <vs-sidebar-item to="/Planning" id="Planning">
+        <template #icon>
+          <i class="bx bx-code-block"></i>
         </template>
-        <vs-sidebar-item to="/Accueil" style="color:black;" class="home" id="home">
-          <template #icon>
-            <i class="bx bx-home"></i>
-          </template>Accueil
-        </vs-sidebar-item>
-        <vs-sidebar-item to="/Programme" id="Programme">
-          <template #icon>
-            <i class="bx bxs-calendar"></i>
-          </template>
-          Programme
-        </vs-sidebar-item>
-        <vs-sidebar-item to="/Planning" id="Planning">
-          <template #icon>
-            <i class="bx bx-code-block"></i>
-          </template>
-          Planning
-        </vs-sidebar-item>
-        <vs-sidebar-item to="/Immersion" id="Immersion">
-          <template #icon>
-            <i class="bx bx-detail"></i>
-          </template>
-          Immersion
-        </vs-sidebar-item>
-        <vs-sidebar-item to="/Messagerie" id="Messagerie">
-          <template #icon>
-            <i class="bx bx-envelope bx-envelope1"></i>
-          </template>
-          Messagerie
-        </vs-sidebar-item>
-        <template #footer>
-          <vs-row justify="space-between"></vs-row>
+        Planning
+      </vs-sidebar-item>
+      <vs-sidebar-item to="/Immersion" id="Immersion">
+        <template #icon>
+          <i class="bx bx-detail"></i>
         </template>
-      </vs-sidebar>
-    </div>
+        Immersion
+      </vs-sidebar-item>
+      <vs-sidebar-item to="/Messagerie" id="Messagerie">
+        <template #icon>
+          <i class="bx bx-envelope bx-envelope1"></i>
+        </template>
+        Messagerie
+      </vs-sidebar-item>
+      <template #footer>
+        <vs-row justify="space-between"></vs-row>
+      </template>
+    </vs-sidebar>
   </div>
 </template>
 
@@ -116,15 +111,6 @@ export default {
   transform: scale(0.8);
 }
 
-.bx-search {
-  position: relative;
-  right: 10%;
-}
-
-/* .home :active {
-  color: #ff9900 !important;
-} */
-
 .vs-sidebar__item:after {
   background-color: #ff9900 !important;
 }
@@ -135,13 +121,5 @@ export default {
 .bx-envelope1,
 .bx-code-block {
   color: #000;
-}
-
-.bx-home,
-.bxs-calendar,
-.bx-detail,
-.bx-envelope1,
-.bx-code-block {
-  color: ;
 }
 </style>

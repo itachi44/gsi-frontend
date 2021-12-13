@@ -7,6 +7,8 @@ import 'vuesax/dist/vuesax.css'
 import 'boxicons/css/boxicons.min.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 Vue.config.productionTip = false

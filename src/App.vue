@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <section v-if="loggedIn === false">
+    <section v-if="isAuthenticated === false">
       <Login />
     </section>
 
@@ -22,9 +22,8 @@
 <script>
 import SideBar from "@/components/SideBar.vue";
 import Login from "@/views/Login.vue";
-
+import axios from "axios";
 import { mapState } from "vuex";
-//import { toast } from "bulma-toast";
 
 export default {
   name: "App",
@@ -32,25 +31,25 @@ export default {
     SideBar,
     Login
   },
-  computed: {
-    ...mapState({
-      loggedIn: "loggedIn"
-    })
-  },
+
   //récupérer les données du local storage avant la création de l'applicaton
   beforeCreate() {
     this.$store.commit("initializeStore");
+    const token = this.$store.state.token;
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = "Token " + token;
+    } else {
+      axios.defaults.headers.common["Authorization"] = "";
+    }
   },
 
   mounted() {
-    //  toast({
-    //         message: 'Bienvenue M.*****',
-    //         type: 'is-success',
-    //         dismissible: true,
-    //         pauseOnHover: true,
-    //         duration: 2000,
-    //         position: 'bottom-right',
-    //     })
+    document.title = "ENT-GSI";
+  },
+  computed: {
+    ...mapState({
+      isAuthenticated: "isAuthenticated"
+    })
   }
 };
 </script>

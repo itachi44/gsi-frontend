@@ -10,14 +10,12 @@
       </div>
       <p class="headerText">Connectez-vous à votre compte</p>
       <br />
-
       <div class="form">
         <vs-input
           size="large"
-          style="width:200px;"
           class="formInput"
           color="#F0DBBA"
-          v-model="identifiantValue"
+          v-model="identifiant"
           placeholder="exemple@gmail.com"
         />
         <br />
@@ -28,12 +26,12 @@
           color="#F0DBBA"
           type="password"
           placeholder="Password"
-          v-model="passwordValue"
+          v-model="password"
         />
         <br />
         <br />
         <div class="stuffs">
-          <vs-checkbox color="#CA7900" v-model="checkBox1">Se souvenir de moi ?</vs-checkbox>
+          <vs-checkbox color="#CA7900" v-model="checkBox">Se souvenir de moi ?</vs-checkbox>
           <router-link
             to="/"
             style="text-decoration:none; color:#CA7900; margin-top:2%; margin-left:20%; font-size:0.9em;"
@@ -42,56 +40,125 @@
         <br />
         <br />
         <vs-button
+          @click="logIn()"
+          ref="button"
           style="color:#CA7900; background-color:#CA7900; width:70%; border-radius:4%; transform:scale(1.2);"
           color="#CA7900"
           flat
-          :active="active == 1"
-          @click="active = 1"
         >
           <span style="color:#fff;">Connexion</span>
         </vs-button>
+        <br />
+        <!-- gestion des erreurs -->
+        <div class="alert alert-danger" v-if="errors.length">
+          <span v-for="error in errors" v-bind:key="error">{{ error }}</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-//import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "Login",
   components: {},
   data: () => ({
-    passwordValue: "",
-    identifiantValue: ""
+    password: "",
+    identifiant: "",
+    checkBox: "",
+    errors: []
   }),
   methods: {
-    async logInUser() {
+    async logIn() {
+      this.openLoadingButton();
+      //reset errors
+      this.errors = [];
       //affichage de la barre de chargement
       this.$store.commit("setIsLoading", true);
+      //reset Authorization header
+      axios.defaults.headers.common["Authorization"] = "";
+      //suppression du Token
+      localStorage.removeItem("token");
+      //les données
+      const formData = {
+        identifiant: this.identifiant,
+        mot_de_passe: this.password
+      };
+      console.log(formData);
+      //appel de l'api
       await this.axios
-        .post("/api/login")
+        .post("/api/login/", formData)
         .then(response => {
           console.log(response.data);
+          const token = response.data.token;
+          this.$store.commit("setToken", token);
+
+          axios.defaults.headers.common["Authorization"] = "Token " + token;
+          localStorage.setItem("token", token);
+          this.$store.state.isAuthenticated = true;
+
+          //redirection vers la page accueil
+          console.log(this.$route.query.to || "/");
+          // const toPath = this.$route.query.to || "/";
+          // this.$router.push(toPath);
         })
         .catch(error => {
-          console.log(error);
+          if (error.response) {
+            for (const property in error.response.data) {
+              this.errors.push(`${property}: ${error.response.data[property]}`);
+            }
+          } else {
+            this.errors.push(
+              "Quelque chose ne marche pas. Veuillez réessayer encore."
+            );
+
+            console.log(JSON.stringify(error));
+          }
+          //  toast({
+          //         message: '',
+          //         type: 'is-danger',
+          //         dismissible: true,
+          //         pauseOnHover: true,
+          //         duration: 2000,
+          //         position: 'bottom-right',
+          //     })
         });
+
+      //se souvenir de lui?
       //enlever la barre de chargement
       this.$store.commit("setIsLoading", false);
+    },
+    openLoadingButton() {
+      const loading = this.$vs.loading({
+        target: this.$refs.button,
+        scale: "0.6",
+        background: "#CA7900",
+        opacity: 1,
+        color: "#fff"
+      });
+      setTimeout(() => {
+        loading.close();
+      }, 1500);
     }
   }
 };
 </script>
 
 <style scoped>
+body,
+html {
+  padding: 0;
+  margin: 0;
+}
 .content {
   display: flex;
   flex-direction: row;
 }
 .image {
   width: 60%;
-  margin-bottom: 30%;
+  margin-bottom: 10%;
 }
 
 .loginForm {
@@ -99,6 +166,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0;
+  height: 20%;
 }
 
 .header {
@@ -127,5 +196,6 @@ export default {
 
 .formInput {
   transform: scale(1.4);
+  font-size: 0.7em;
 }
 </style>

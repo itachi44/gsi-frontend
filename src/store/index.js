@@ -13,22 +13,33 @@ export default new Vuex.Store({
     //initialisation du local storage
     initializeStore(state) {
       if (localStorage.getItem("token")) {
-        state.token = JSON.parse(localStorage.getItem("token"));
+        state.token = localStorage.getItem("token");
+        state.isAuthenticated = true;
 
       } else {
 
-        localStorage.setItem("token", JSON.stringify(state.token));
+        state.token = "";
+        state.isAuthenticated = false;
 
       }
 
     },
 
     //pour le loadind bar
-
     setIsLoading(state, status) {
       state.isLoading = status;
 
-    }
+    },
+    //souvegarder un token 
+    setToken(state, token) {
+      state.token = token
+      state.isAuthenticated = true
+    },
+    //supprimer un token
+    removeToken(state) {
+      state.token = ''
+      state.isAuthenticated = false
+    },
   },
   actions: {
   },
