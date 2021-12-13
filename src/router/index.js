@@ -5,10 +5,8 @@ import Programme from '../views/Programme.vue'
 import Planning from '../views/Planning.vue'
 import Immersion from '../views/Immersion.vue'
 import Messagerie from '../views/Messagerie.vue'
-import Login from '../views/Login.vue'
+import LogIn from '../views/Login.vue'
 import store from '../store/index.js'
-
-
 
 
 
@@ -22,9 +20,14 @@ const routes = [
       if (store.state.isAuthenticated === true) {
         return Home
       } else {
-        return Login
+        return LogIn
       }
     }
+  },
+  {
+    path: '/logIn',
+    name: 'LogIn',
+    component: LogIn
   },
   {
     path: '/Programme',
@@ -56,6 +59,14 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
+    next({ name: 'LogIn', query: { to: to.path } });
+  } else {
+    next()
+  }
 })
 
 export default router

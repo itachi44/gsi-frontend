@@ -8,6 +8,8 @@ export default new Vuex.Store({
     isAuthenticated: false,
     token: "",
     isLoading: false,
+    userType: "",
+    user: Object
   },
   mutations: {
     //initialisation du local storage

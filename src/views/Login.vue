@@ -93,6 +93,7 @@ export default {
           const token = response.data.token;
           this.$store.commit("setToken", token);
           console.log(response.data);
+          this.$store.state.userType = response.data.permissions;
 
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           localStorage.setItem("token", token);
