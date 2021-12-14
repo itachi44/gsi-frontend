@@ -19,18 +19,15 @@ export default new Vuex.Store({
         state.isAuthenticated = true;
 
       } else {
-
         state.token = "";
         state.isAuthenticated = false;
 
       }
 
     },
-
     //pour le loadind bar
     setIsLoading(state, status) {
       state.isLoading = status;
-
     },
     //souvegarder un token 
     setToken(state, token) {

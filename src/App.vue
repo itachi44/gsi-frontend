@@ -33,12 +33,15 @@ export default {
     Login
   },
 
-  //récupérer les données du local storage avant la création de l'applicaton
   beforeCreate() {
+    //récupérer les données du local storage avant la création de l'applicaton
+
     this.$store.commit("initializeStore");
     const token = this.$store.state.token;
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Token " + token;
+      //récuperer les données de l'utilisateur : test sur la permission
+      console.log(this.$store.state.userType);
     } else {
       axios.defaults.headers.common["Authorization"] = "";
     }
@@ -46,6 +49,7 @@ export default {
 
   mounted() {
     document.title = "ENT-GSI";
+    console.log(this.$store.state.userType);
   },
   computed: {
     ...mapState({

@@ -94,7 +94,14 @@ export default {
   }),
 
   methods: {
-    logout() {
+    async logout() {
+      //TODO faire un appel de l'URI : /logOut
+      await this.axios
+        .post("/api/logout/", this.$store.state.token)
+        .then(response => {
+          console.log(response.data);
+        });
+
       axios.defaults.headers.common["Authorization"] = "";
       localStorage.removeItem("token");
       localStorage.removeItem("username");
