@@ -25,7 +25,10 @@
       <template #right>
         <div class="student-infos">
           <vs-button flat color="#F0DBBA" :active="active == 5" @click="active = 5">
-            <span style="color:#CA7900;">Farimata Ngom</span>
+            <span
+              style="color:#CA7900;"
+              v-if="user.membre"
+            >{{user.membre.prenom}} {{user.membre.nom}}</span>
           </vs-button>
           <vs-button style="background-color:#fff;" class="user-avatar">
             <i style="color:#000;" class="bx bx-user bx-sm"></i>
@@ -87,15 +90,17 @@
 import axios from "axios";
 
 export default {
+  props: {
+    user: {
+      type: Object
+    }
+  },
   data: () => ({
     active: "home",
-    activeSidebar: false,
-    searchValue: ""
+    activeSidebar: false
   }),
-
   methods: {
     async logout() {
-      //TODO faire un appel de l'URI : /logOut
       await this.axios
         .post("/api/logout/", this.$store.state.token)
         .then(response => {
@@ -107,6 +112,8 @@ export default {
       localStorage.removeItem("username");
       localStorage.removeItem("userid");
       this.$store.commit("removeToken");
+      this.$store.commit("removeUser");
+
       this.$router.push("/");
     }
   }

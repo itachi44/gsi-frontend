@@ -9,7 +9,7 @@ export default new Vuex.Store({
     token: "",
     isLoading: false,
     userType: "",
-    user: Object
+    user: []
   },
   mutations: {
     //initialisation du local storage
@@ -17,10 +17,13 @@ export default new Vuex.Store({
       if (localStorage.getItem("token")) {
         state.token = localStorage.getItem("token");
         state.isAuthenticated = true;
+        //données de l'utilisateur
+        state.user = JSON.parse(localStorage.getItem("user"));
 
       } else {
         state.token = "";
         state.isAuthenticated = false;
+        state.user = [];
 
       }
 
@@ -31,13 +34,21 @@ export default new Vuex.Store({
     },
     //souvegarder un token 
     setToken(state, token) {
-      state.token = token
-      state.isAuthenticated = true
+      state.token = token;
+      state.isAuthenticated = true;
     },
     //supprimer un token
     removeToken(state) {
-      state.token = ''
-      state.isAuthenticated = false
+      state.token = '';
+      state.isAuthenticated = false;
+    },
+    //sauvegarder le user
+    setUser(state, user) {
+      state.user = user;
+    },
+    //supprimer le user
+    removeUser(state) {
+      state.user = '';
     },
   },
   actions: {

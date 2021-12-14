@@ -5,7 +5,7 @@
     </section>
 
     <section v-else>
-      <SideBar />
+      <SideBar :user="user" />
       <div class="boxSize"></div>
       <div
         class="is-loading-bar has-text-centered"
@@ -40,8 +40,6 @@ export default {
     const token = this.$store.state.token;
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Token " + token;
-      //récuperer les données de l'utilisateur : test sur la permission
-      console.log(this.$store.state.userType);
     } else {
       axios.defaults.headers.common["Authorization"] = "";
     }
@@ -49,11 +47,21 @@ export default {
 
   mounted() {
     document.title = "ENT-GSI";
-    console.log(this.$store.state.userType);
+  },
+  //gérer le changement de l'objet user
+  watch: {
+    user: {
+      handler(user) {
+        console.log(user);
+        console.log("user changed");
+      },
+      deep: true
+    }
   },
   computed: {
     ...mapState({
-      isAuthenticated: "isAuthenticated"
+      isAuthenticated: "isAuthenticated",
+      user: "user"
     })
   },
   methods: {}

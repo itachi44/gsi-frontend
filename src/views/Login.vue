@@ -80,12 +80,15 @@ export default {
       axios.defaults.headers.common["Authorization"] = "";
       //suppression du Token
       localStorage.removeItem("token");
+      //suppression du user
+      localStorage.removeItem("user");
 
       //les données
       const formData = {
         identifiant: this.identifiant,
         mot_de_passe: this.password
       };
+
       //appel de l'api
       await this.axios
         .post("/api/login/", formData)
@@ -93,22 +96,40 @@ export default {
           const token = response.data.token;
           this.$store.commit("setToken", token);
           console.log(response.data);
+          //TODO verifier si le token n'est pas expiré sinon faire appel à refresh token de l'apis
           this.$store.state.userType = response.data.userType;
 
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           localStorage.setItem("token", token);
+          let prenom;
+          let message;
+          //récupération des infos du user
+          if (this.$store.state.userType == "is_student") {
+            this.axios
+              .get("/api/etudiant/?email=" + response.data.user.email)
+              .then(response => {
+                var userData = JSON.parse(
+                  JSON.stringify(response.data.results[0])
+                );
+                prenom = userData.membre["prenom"];
+                message = "Bienvenue " + prenom;
 
-          //redirection vers la page accueil
-          const toPath = this.$route.query.to || "/";
-          this.$router.push(toPath);
-          //aafichage d'un message de bienvenue
-          this.$vs.notification({
-            color: "success",
-            position: "bottom-left",
-            title: "Bienvenue",
-            text: "",
-            buttonClose: false
-          });
+                //enregistrement de l'utilisateur
+                localStorage.setItem("user", JSON.stringify(userData));
+                this.$store.commit("setUser", userData);
+                //redirection vers la page accueil
+                const toPath = this.$route.query.to || "/";
+                this.$router.push(toPath);
+                //affichage d'un message de bienvenue
+                this.$vs.notification({
+                  color: "success",
+                  position: "bottom-left",
+                  title: message,
+                  text: "",
+                  buttonClose: false
+                });
+              });
+          }
         })
         .catch(error => {
           if (error.response) {
