@@ -69,7 +69,7 @@ export default {
 </script>
 <style  >
 .boxSize {
-  margin-top: 5%;
+  margin-top: 6%;
 }
 
 .lds-dual-ring {

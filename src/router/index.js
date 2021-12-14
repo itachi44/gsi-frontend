@@ -15,7 +15,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Accueil',
     component: () => {
       if (store.state.isAuthenticated === true) {
         return Home
@@ -23,11 +23,6 @@ const routes = [
         return LogIn
       }
     }
-  },
-  {
-    path: '/logIn',
-    name: 'LogIn',
-    component: LogIn
   },
   {
     path: '/Programme',
@@ -43,13 +38,20 @@ const routes = [
   {
     path: '/Messagerie',
     name: 'Messagerie',
-    component: Messagerie
-  },
+    component: Messagerie,
 
+  },
+  {
+    path: '/Accueil',
+    name: 'Home',
+    component: Home,
+
+  },
   {
     path: '/Immersion',
     name: 'Immersion',
-    component: Immersion
+    component: Immersion,
+
   }
 
 

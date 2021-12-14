@@ -106,15 +106,14 @@ export default {
         .then(response => {
           console.log(response.data);
         });
-
       axios.defaults.headers.common["Authorization"] = "";
       localStorage.removeItem("token");
       localStorage.removeItem("username");
       localStorage.removeItem("userid");
       this.$store.commit("removeToken");
       this.$store.commit("removeUser");
-
-      this.$router.push("/");
+      const toPath = this.$route.query.to || "/login";
+      this.$router.push(toPath);
     }
   }
 };

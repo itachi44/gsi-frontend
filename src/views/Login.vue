@@ -118,7 +118,7 @@ export default {
                 localStorage.setItem("user", JSON.stringify(userData));
                 this.$store.commit("setUser", userData);
                 //redirection vers la page accueil
-                const toPath = this.$route.query.to || "/";
+                const toPath = this.$route.query.to || "/Accueil";
                 this.$router.push(toPath);
                 //affichage d'un message de bienvenue
                 this.$vs.notification({
