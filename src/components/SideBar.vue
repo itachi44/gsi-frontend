@@ -92,7 +92,7 @@ import axios from "axios";
 export default {
   props: {
     user: {
-      type: Object
+      type: []
     }
   },
   data: () => ({
