@@ -105,15 +105,15 @@ export default {
         .post("/api/logout/", this.$store.state.token)
         .then(response => {
           console.log(response.data);
+          axios.defaults.headers.common["Authorization"] = "";
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          localStorage.removeItem("userid");
+          this.$store.commit("removeToken");
+          this.$store.commit("removeUser");
+          const toPath = this.$route.query.to || "/login";
+          this.$router.push(toPath);
         });
-      axios.defaults.headers.common["Authorization"] = "";
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      localStorage.removeItem("userid");
-      this.$store.commit("removeToken");
-      this.$store.commit("removeUser");
-      const toPath = this.$route.query.to || "/login";
-      this.$router.push(toPath);
     }
   }
 };

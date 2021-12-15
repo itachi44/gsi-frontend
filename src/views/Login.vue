@@ -113,6 +113,16 @@ export default {
                 );
                 prenom = userData.membre["prenom"];
                 message = "Bienvenue " + prenom;
+                if (userData.cv !== "") {
+                  let cv_id = userData.cv.split("/")[4];
+                  let formData = new FormData();
+                  formData.append("id_file", cv_id);
+                  this.axios
+                    .post("/api/retrieveFile/", formData)
+                    .then(response => {
+                      console.log(response.data);
+                    });
+                }
 
                 //enregistrement de l'utilisateur
                 localStorage.setItem("user", JSON.stringify(userData));

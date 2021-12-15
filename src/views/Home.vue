@@ -7,6 +7,11 @@
       </label>
       <button v-on:click="submitFile()">Submit</button>
     </div>
+
+    <br />
+    <br />
+
+    <div class="fileRetriveTest"></div>
   </div>
 </template>
 
@@ -18,6 +23,11 @@ import axios from "axios";
 export default {
   name: "Home",
   components: {},
+  props: {
+    user: {
+      type: []
+    }
+  },
   data() {
     return {
       file: ""
@@ -33,7 +43,6 @@ export default {
       let formData = new FormData();
       formData.append("cv", this.file);
 
-      console.log(formData);
       //TODO: change the URI it's just a test
 
       axios

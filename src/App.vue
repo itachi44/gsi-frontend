@@ -14,7 +14,7 @@
         <div style="margin-left:45%" class="lds-dual-ring"></div>
       </div>
 
-      <router-view></router-view>
+      <router-view v-if="user" :user="user"></router-view>
     </section>
   </div>
 </template>
