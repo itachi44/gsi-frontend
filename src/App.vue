@@ -34,8 +34,8 @@ export default {
   },
 
   beforeCreate() {
+    console.log("app created");
     //récupérer les données du local storage avant la création de l'applicaton
-
     this.$store.commit("initializeStore");
     const token = this.$store.state.token;
     if (token) {
@@ -47,13 +47,14 @@ export default {
 
   mounted() {
     document.title = "ENT-GSI";
+    console.log("app mounted");
   },
   //gérer le changement de l'objet user
   watch: {
     user: {
       handler(user) {
-        console.log(user);
         console.log("user changed");
+        console.log(user);
       },
       deep: true
     }

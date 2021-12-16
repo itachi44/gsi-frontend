@@ -72,37 +72,30 @@ export default {
   methods: {
     async logIn() {
       this.openLoadingButton();
-      //reset errors
       this.errors = [];
-      //affichage de la barre de chargement
       this.$store.commit("setIsLoading", true);
-      //reset Authorization header
       axios.defaults.headers.common["Authorization"] = "";
-      //suppression du Token
       localStorage.removeItem("token");
-      //suppression du user
       localStorage.removeItem("user");
 
-      //les données
       const formData = {
         identifiant: this.identifiant,
         mot_de_passe: this.password
       };
 
-      //appel de l'api
       await this.axios
         .post("/api/login/", formData)
         .then(response => {
           const token = response.data.token;
           this.$store.commit("setToken", token);
-          console.log(response.data);
-          //TODO verifier si le token n'est pas expiré sinon faire appel à refresh token de l'apis
           this.$store.state.userType = response.data.userType;
 
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           localStorage.setItem("token", token);
+
           let prenom;
           let message;
+
           //récupération des infos du user
           if (this.$store.state.userType == "is_student") {
             this.axios
@@ -111,25 +104,15 @@ export default {
                 var userData = JSON.parse(
                   JSON.stringify(response.data.results[0])
                 );
+
                 prenom = userData.membre["prenom"];
                 message = "Bienvenue " + prenom;
-                if (userData.cv !== "") {
-                  let cv_id = userData.cv.split("/")[4];
-                  let formData = new FormData();
-                  formData.append("id_file", cv_id);
-                  this.axios
-                    .post("/api/retrieveFile/", formData)
-                    .then(response => {
-                      console.log(response.data);
-                    });
-                }
-
                 //enregistrement de l'utilisateur
                 localStorage.setItem("user", JSON.stringify(userData));
                 this.$store.commit("setUser", userData);
                 //redirection vers la page accueil
                 const toPath = this.$route.query.to || "/Accueil";
-                this.$router.push(toPath);
+                this.$router.push(toPath).catch(() => {});
                 //affichage d'un message de bienvenue
                 this.$vs.notification({
                   color: "success",

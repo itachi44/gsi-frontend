@@ -11,7 +11,9 @@
     <br />
     <br />
 
-    <div class="fileRetriveTest"></div>
+    <div v-if="user">
+      <img :src="user.get_cv" />
+    </div>
   </div>
 </template>
 

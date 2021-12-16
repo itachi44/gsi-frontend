@@ -101,18 +101,18 @@ export default {
   }),
   methods: {
     async logout() {
+      const toPath = this.$route.query.to || "/";
+      this.$router.push(toPath).catch(() => {});
       await this.axios
         .post("/api/logout/", this.$store.state.token)
         .then(response => {
-          console.log(response.data);
           axios.defaults.headers.common["Authorization"] = "";
           localStorage.removeItem("token");
           localStorage.removeItem("username");
           localStorage.removeItem("userid");
           this.$store.commit("removeToken");
           this.$store.commit("removeUser");
-          const toPath = this.$route.query.to || "/login";
-          this.$router.push(toPath);
+          console.log(response.data);
         });
     }
   }
