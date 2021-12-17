@@ -1,6 +1,6 @@
 <template>
   <div class="container home">
-    <div class="large-12 medium-12 small-12 cell">
+    <!-- <div class="large-12 medium-12 small-12 cell">
       <label>
         File
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
@@ -9,11 +9,11 @@
     </div>
 
     <br />
-    <br />
+    <br />-->
 
-    <div v-if="user">
-      <img :src="user.get_cv" />
-    </div>
+    <!-- <div v-if="user">
+      <pdf  :src="user.get_cv"></pdf>
+    </div>-->
   </div>
 </template>
 
@@ -21,10 +21,13 @@
 
 <script>
 import axios from "axios";
+//import pdf from "vue-pdf";
 
 export default {
   name: "Home",
-  components: {},
+  components: {
+    // pdf
+  },
   props: {
     user: {
       type: []

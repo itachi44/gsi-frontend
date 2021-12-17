@@ -9,7 +9,9 @@ export default new Vuex.Store({
     token: "",
     isLoading: false,
     userType: "",
-    user: []
+    user: [],
+    expires_in: "",
+    created_at: ""
   },
   mutations: {
     //initialisation du local storage
@@ -19,6 +21,8 @@ export default new Vuex.Store({
         state.isAuthenticated = true;
         //données de l'utilisateur
         state.user = JSON.parse(localStorage.getItem("user"));
+        state.expires_in = localStorage.getItem("expires_in");
+        state.created_at = localStorage.getItem("created_at");
 
       } else {
         state.token = "";
@@ -27,6 +31,10 @@ export default new Vuex.Store({
 
       }
 
+    },
+    setExpired(state) {
+      state.expires_in = "";
+      state.created_at = "";
     },
     //pour le loadind bar
     setIsLoading(state, status) {

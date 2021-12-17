@@ -101,19 +101,23 @@ export default {
   }),
   methods: {
     async logout() {
-      const toPath = this.$route.query.to || "/";
+      const toPath = this.$route.query.to || "/login";
       this.$router.push(toPath).catch(() => {});
-      await this.axios
-        .post("/api/logout/", this.$store.state.token)
-        .then(response => {
-          axios.defaults.headers.common["Authorization"] = "";
-          localStorage.removeItem("token");
-          localStorage.removeItem("username");
-          localStorage.removeItem("userid");
-          this.$store.commit("removeToken");
-          this.$store.commit("removeUser");
-          console.log(response.data);
-        });
+      if (this.$store.state.token) {
+        await this.axios
+          .post("/api/logout/", this.$store.state.token)
+          .then(response => {
+            axios.defaults.headers.common["Authorization"] = "";
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            localStorage.removeItem("expires_in");
+            localStorage.removeItem("created_at");
+            localStorage.removeItem("userid");
+            this.$store.commit("removeToken");
+            this.$store.commit("removeUser");
+            console.log(response.data);
+          });
+      }
     }
   }
 };

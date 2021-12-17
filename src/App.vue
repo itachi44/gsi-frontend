@@ -32,9 +32,13 @@ export default {
     SideBar,
     Login
   },
+  data() {
+    return {
+      timer: null
+    };
+  },
 
   beforeCreate() {
-    console.log("app created");
     //récupérer les données du local storage avant la création de l'applicaton
     this.$store.commit("initializeStore");
     const token = this.$store.state.token;
@@ -44,10 +48,28 @@ export default {
       axios.defaults.headers.common["Authorization"] = "";
     }
   },
-
   mounted() {
     document.title = "ENT-GSI";
-    console.log("app mounted");
+    //verifier le token chaque minute
+    this.timer = window.setInterval(() => {
+      let now = Date.now() / 1000;
+      let expiry = parseFloat(this.created_at) + parseFloat(this.expires_in);
+      if (isNaN(parseFloat(expiry)) == false) {
+        if (now < expiry) {
+          alert("session expiré veuillez vous reconnecter");
+          axios.defaults.headers.common["Authorization"] = "";
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          localStorage.removeItem("userid");
+          localStorage.removeItem("expires_in");
+          localStorage.removeItem("created_at");
+          this.$store.commit("removeToken");
+          this.$store.commit("removeUser");
+          this.$router.push("/login");
+          this.$store.commit("setExpired");
+        }
+      }
+    }, 6000);
   },
   //gérer le changement de l'objet user
   watch: {
@@ -57,13 +79,25 @@ export default {
         console.log(user);
       },
       deep: true
+    },
+    expires_in: {
+      handler(expires_in) {
+        console.log("expiry changed");
+        console.log(expires_in);
+      },
+      deep: true
     }
   },
   computed: {
     ...mapState({
       isAuthenticated: "isAuthenticated",
-      user: "user"
+      user: "user",
+      expires_in: "expires_in",
+      created_at: "created_at"
     })
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   methods: {}
 };
