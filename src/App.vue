@@ -52,24 +52,31 @@ export default {
     document.title = "ENT-GSI";
     //verifier le token chaque minute
     this.timer = window.setInterval(() => {
-      let now = Date.now() / 1000;
-      let expiry = parseFloat(this.created_at) + parseFloat(this.expires_in);
-      if (isNaN(parseFloat(expiry)) == false) {
-        if (now < expiry) {
-          alert("session expiré veuillez vous reconnecter");
-          axios.defaults.headers.common["Authorization"] = "";
-          localStorage.removeItem("token");
-          localStorage.removeItem("username");
-          localStorage.removeItem("userid");
-          localStorage.removeItem("expires_in");
-          localStorage.removeItem("created_at");
-          this.$store.commit("removeToken");
-          this.$store.commit("removeUser");
-          this.$router.push("/login");
-          this.$store.commit("setExpired");
-        }
+      if (this.token) {
+        const formData = {
+          token: this.token
+        };
+
+        this.axios
+          .post("/api/verify_token/", formData)
+          .then(response => {
+            return response.data;
+          })
+          .catch(error => {
+            alert("session expiré veuillez vous reconnecter");
+            axios.defaults.headers.common["Authorization"] = "";
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            localStorage.removeItem("userid");
+            localStorage.removeItem("expires_in");
+            localStorage.removeItem("created_at");
+            this.$store.commit("removeToken");
+            this.$store.commit("removeUser");
+            this.$router.push("/login");
+            console.log(JSON.stringify(error));
+          });
       }
-    }, 6000);
+    }, 10000);
   },
   //gérer le changement de l'objet user
   watch: {
@@ -79,13 +86,6 @@ export default {
         console.log(user);
       },
       deep: true
-    },
-    expires_in: {
-      handler(expires_in) {
-        console.log("expiry changed");
-        console.log(expires_in);
-      },
-      deep: true
     }
   },
   computed: {
@@ -93,7 +93,8 @@ export default {
       isAuthenticated: "isAuthenticated",
       user: "user",
       expires_in: "expires_in",
-      created_at: "created_at"
+      created_at: "created_at",
+      token: "token"
     })
   },
   beforeDestroy() {

@@ -77,6 +77,8 @@ export default {
       axios.defaults.headers.common["Authorization"] = "";
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("expires_in");
+      localStorage.removeItem("created_at");
 
       const formData = {
         identifiant: this.identifiant,
@@ -89,10 +91,6 @@ export default {
           const token = response.data.token;
           this.$store.commit("setToken", token);
           this.$store.state.userType = response.data.userType;
-          localStorage.setItem("expires_in", response.data.expires_in);
-          localStorage.setItem("created_at", response.data.created_at);
-          this.$store.state.expires_in = response.data.expires_in;
-          this.$store.state.created_at = response.data.created_at;
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           localStorage.setItem("token", token);
 
