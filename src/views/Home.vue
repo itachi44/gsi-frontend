@@ -1,5 +1,6 @@
 <template>
   <div class="container home">
+    yoroshiku
     <!-- <div class="large-12 medium-12 small-12 cell">
       <label>
         File

@@ -6,6 +6,8 @@ import Planning from '../views/Planning.vue'
 import Immersion from '../views/Immersion.vue'
 import Messagerie from '../views/Messagerie.vue'
 import LogIn from '../views/Login.vue'
+import Password_reset from '../views/Password_reset.vue'
+
 import store from '../store/index.js'
 
 
@@ -25,6 +27,12 @@ const routes = [
     }
   },
   {
+    path: '/Accueil',
+    name: 'Home',
+    component: Home,
+
+  },
+  {
     path: '/Programme',
     name: 'Programme',
     component: Programme
@@ -42,15 +50,21 @@ const routes = [
 
   },
   {
-    path: '/Accueil',
-    name: 'Home',
-    component: Home,
-
+    path: '/reset_password',
+    name: 'reset_password',
+    component: Password_reset
   },
+  //:uidb/:key'
   {
     path: '/Immersion',
     name: 'Immersion',
     component: Immersion,
+
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LogIn,
 
   }
 
@@ -64,8 +78,14 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem("token");
+  console.log(token);
+  if (to.path === "/" && token !== null) {
+    router.push("/Accueil").catch(() => { });
+
+  }
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
-    next({ name: 'LogIn', query: { to: to.path } });
+    next({ name: 'login', query: { to: to.path } });
   } else {
     next()
   }

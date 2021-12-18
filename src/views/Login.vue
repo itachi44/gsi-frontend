@@ -1,5 +1,50 @@
 <template>
   <div class="content">
+    <!-- modal -->
+
+    <div
+      class="modal fade"
+      id="resetPasswordModal"
+      ref="resetPasswordModal"
+      tabindex="-1"
+      aria-labelledby="resetPasswordModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5
+              class="modal-title"
+              ref
+              id="resetPasswordModalLabel"
+            >Reinitialiser votre mot de passe</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="identifiant" class="col-form-label">entrer votre adresse email:</label>
+                <input v-model="recovery_email" type="text" class="form-control" id="identifiant" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <button @click="passwordReset()" type="button" class="btn btn-primary">Envoyer</button>
+            <div class="alert alert-danger" v-if="errors.length">
+              <span v-for="error in errors" v-bind:key="error">{{ error }}</span>
+            </div>
+            <br />
+
+            <div style="margin-top:2%;" class="alert alert-success" v-if="messages.length">
+              <span v-for="msg in messages" v-bind:key="msg">{{ msg }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- fin modal -->
+
     <div class="image">
       <img src="@/assets/onboarding.jpg" />
     </div>
@@ -33,7 +78,10 @@
         <br />
         <div class="stuffs">
           <router-link
-            to="/"
+            data-bs-toggle="modal"
+            data-bs-target="#resetPasswordModal"
+            data-bs-whatever="@mdo"
+            to="/reset_password"
             style="text-decoration:none; color:#CA7900; margin-top:2%; margin-left:10%; font-size:0.9em;"
           >Mot de passe oublié ?</router-link>
         </div>
@@ -62,12 +110,14 @@
 import axios from "axios";
 
 export default {
-  name: "Login",
+  name: "LogIn",
   components: {},
   data: () => ({
     password: "",
     identifiant: "",
-    errors: []
+    errors: [],
+    recovery_email: "",
+    messages: []
   }),
   methods: {
     async logIn() {
@@ -153,6 +203,34 @@ export default {
       setTimeout(() => {
         loading.close();
       }, 1500);
+    },
+
+    async passwordReset() {
+      //TODO verify email with regex
+      // // this.uidb = this.$route.query.uidb;
+      // // this.key = this.$route.query.key;
+      if (
+        this.recovery_email
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          )
+      ) {
+        console.log("yes");
+
+        const data = {
+          email: this.recovery_email
+        };
+        this.axios
+          .post("/api/reset_password/", data)
+          .then(response => {
+            this.messages.push(response.data.info);
+            console.log(response.data.info);
+          })
+          .catch(error => {
+            this.errors.push(error.data.info);
+          });
+      }
     }
   }
 };
