@@ -7,6 +7,8 @@ import Immersion from '../views/Immersion.vue'
 import Messagerie from '../views/Messagerie.vue'
 import LogIn from '../views/Login.vue'
 import Password_reset from '../views/Password_reset.vue'
+import NotFound from '../views/NotFound.vue'
+
 
 import store from '../store/index.js'
 
@@ -50,11 +52,10 @@ const routes = [
 
   },
   {
-    path: '/reset_password',
+    path: '/reset_password/:uidb/:key',
     name: 'reset_password',
     component: Password_reset
   },
-  //:uidb/:key'
   {
     path: '/Immersion',
     name: 'Immersion',
@@ -66,6 +67,10 @@ const routes = [
     name: 'login',
     component: LogIn,
 
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFound
   }
 
 
@@ -79,9 +84,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("token");
-  console.log(token);
   if (to.path === "/" && token !== null) {
     router.push("/Accueil").catch(() => { });
+
+  } else if (to.path === "/" && token === null) {
+    router.push("/login").catch(() => { });
+  }
+  // eslint-disable-next-line
+  else if (to.path.match(/(\/reset_password\/)/) && token === null) {
+    if (to.query) {
+      next();
+
+    }
 
   }
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {

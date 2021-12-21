@@ -30,15 +30,12 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            <button @click="passwordReset()" type="button" class="btn btn-primary">Envoyer</button>
-            <div class="alert alert-danger" v-if="errors.length">
-              <span v-for="error in errors" v-bind:key="error">{{ error }}</span>
-            </div>
-            <br />
-
-            <div style="margin-top:2%;" class="alert alert-success" v-if="messages.length">
-              <span v-for="msg in messages" v-bind:key="msg">{{ msg }}</span>
-            </div>
+            <button
+              @click="passwordReset()"
+              data-bs-dismiss="modal"
+              type="button"
+              class="btn btn-primary"
+            >Envoyer</button>
           </div>
         </div>
       </div>
@@ -98,8 +95,17 @@
         </vs-button>
         <br />
         <!-- gestion des erreurs -->
-        <div class="alert alert-danger" v-if="errors.length">
-          <span v-for="error in errors" v-bind:key="error">{{ error }}</span>
+        <div ref="errors" class="alert alert-danger" v-if="errors.length">
+          <span v-for="(error,i) in errors" v-bind:key="i">{{ error }}</span>
+        </div>
+
+        <div
+          ref="messages"
+          style="margin-top:2%;"
+          class="alert alert-success"
+          v-if="messages.length"
+        >
+          <span v-for="(msg,i) in messages" v-bind:key="i">{{ msg }}</span>
         </div>
       </form>
     </div>
@@ -119,6 +125,28 @@ export default {
     recovery_email: "",
     messages: []
   }),
+  watch: {
+    errors: {
+      handler(errors) {
+        console.log(errors);
+        if (errors) {
+          setTimeout(() => (this.$refs["errors"].style.display = "none"), 3000);
+        }
+      },
+      deep: true
+    },
+    messages: {
+      handler(messages) {
+        if (messages) {
+          setTimeout(
+            () => (this.$refs["messages"].style.display = "none"),
+            3000
+          );
+        }
+      },
+      deep: true
+    }
+  },
   methods: {
     async logIn() {
       this.openLoadingButton();
@@ -206,9 +234,6 @@ export default {
     },
 
     async passwordReset() {
-      //TODO verify email with regex
-      // // this.uidb = this.$route.query.uidb;
-      // // this.key = this.$route.query.key;
       if (
         this.recovery_email
           .toLowerCase()
@@ -216,8 +241,6 @@ export default {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
           )
       ) {
-        console.log("yes");
-
         const data = {
           email: this.recovery_email
         };
@@ -225,11 +248,14 @@ export default {
           .post("/api/reset_password/", data)
           .then(response => {
             this.messages.push(response.data.info);
-            console.log(response.data.info);
+            this.recovery_email = "";
           })
           .catch(error => {
             this.errors.push(error.data.info);
+            this.recovery_email = "";
           });
+      } else {
+        this.errors.push("adresse email invalide.");
       }
     }
   }
