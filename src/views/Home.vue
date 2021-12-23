@@ -1,7 +1,9 @@
 <template>
-  <div class="container home">
-    yoroshiku onegaisimasu
-    <!-- <router-view v-if="user" :user="user"></router-view>
+  <div class="container">
+    <section class="content">
+      <p style="font-size:1.5em; color:#CA7900;">Implementation de la page d'accueil ici</p>
+    </section>
+    <!-- 
     <div class="large-12 medium-12 small-12 cell">
       <label>
         File
@@ -23,7 +25,7 @@
 
 <script>
 import axios from "axios";
-
+import { mapState } from "vuex";
 //import pdf from "vue-pdf";
 
 export default {
@@ -66,7 +68,14 @@ export default {
           console.log("FAILURE!!");
         });
     }
+  },
+  computed: {
+    ...mapState({
+      isAuthenticated: "isAuthenticated"
+    })
   }
 };
 </script>
 
+<style >
+</style>

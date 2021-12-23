@@ -1,5 +1,7 @@
 <template>
-  <div class="content">page non trouvé!!!</div>
+  <section class="content">
+    <p style="font-size:1.5em; color:#CA7900;">Page non trouvé!!</p>
+  </section>
 </template>
 
 <script>

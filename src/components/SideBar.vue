@@ -102,6 +102,8 @@ export default {
   methods: {
     async logout() {
       const toPath = this.$route.query.to || "/login";
+      console.log(toPath);
+
       this.$router.push(toPath).catch(() => {});
       if (this.$store.state.token) {
         await this.axios

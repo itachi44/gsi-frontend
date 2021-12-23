@@ -15,12 +15,14 @@ import store from '../store/index.js'
 
 
 Vue.use(VueRouter)
+let token = localStorage.getItem("token");
 
 const routes = [
   {
     path: '/',
     name: 'Accueil',
     component: () => {
+      console.log(store.state.isAuthenticated);
       if (store.state.isAuthenticated === true) {
         return Home
       } else {
@@ -32,7 +34,6 @@ const routes = [
     path: '/Accueil',
     name: 'Home',
     component: Home,
-
   },
   {
     path: '/Programme',
@@ -44,36 +45,39 @@ const routes = [
     name: 'Planning',
     component: Planning
   },
-
   {
     path: '/Messagerie',
     name: 'Messagerie',
     component: Messagerie,
-
   },
   {
     path: '/reset_password/:uidb/:key',
     name: 'reset_password',
-    component: Password_reset
+    component: Password_reset,
+    beforeEnter: () => {
+      store.commit("setIsPwdResetPage", true);
+    },
+    beforeRouteLeave() {
+      store.commit("setIsPwdResetPage", false);
+    }
   },
   {
     path: '/Immersion',
     name: 'Immersion',
     component: Immersion,
-
   },
   {
     path: '/login',
     name: 'login',
     component: LogIn,
-
+    beforeEnter: () => {
+      store.commit("setIsPwdResetPage", false);
+    },
   },
   {
     path: '/:pathMatch(.*)*',
     component: NotFound
   }
-
-
 ]
 
 const router = new VueRouter({
@@ -83,20 +87,22 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem("token");
+  console.log(to.path);
   if (to.path === "/" && token !== null) {
-    router.push("/Accueil").catch(() => { });
+    next("/Accueil");
 
   } else if (to.path === "/" && token === null) {
-    router.push("/login").catch(() => { });
+    next("/login");
+  }
+  if (to.path === "/login" && token !== null) {
+    next("/Accueil");
   }
   // eslint-disable-next-line
-  else if (to.path.match(/(\/reset_password\/)/) && token === null) {
+  if (to.path === "/reset_password/" && token === null) {
     if (to.query) {
-      next();
-
+      console.log(to.query);
+      router.push({ name: "reset_password", params: { uidb: to.query.uidb, key: to.query.key } });
     }
-
   }
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
     next({ name: 'login', query: { to: to.path } });
@@ -104,5 +110,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+
 
 export default router

@@ -13,11 +13,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5
-              class="modal-title"
-              ref
-              id="resetPasswordModalLabel"
-            >Reinitialiser votre mot de passe</h5>
+            <h5 class="modal-title" id="resetPasswordModalLabel">Reinitialiser votre mot de passe</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -116,7 +112,7 @@
 import axios from "axios";
 
 export default {
-  name: "LogIn",
+  name: "login",
   components: {},
   data: () => ({
     password: "",

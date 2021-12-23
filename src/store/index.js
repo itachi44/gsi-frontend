@@ -10,7 +10,7 @@ export default new Vuex.Store({
     isLoading: false,
     userType: "",
     user: [],
-
+    isPwdResetPage: false
   },
   mutations: {
     //initialisation du local storage
@@ -50,6 +50,9 @@ export default new Vuex.Store({
     //supprimer le user
     removeUser(state) {
       state.user = '';
+    },
+    setIsPwdResetPage(state, value) {
+      state.isPwdResetPage = value;
     },
   },
   actions: {

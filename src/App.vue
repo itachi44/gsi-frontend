@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <section v-if="isAuthenticated === false">
+    <section v-if="isAuthenticated === false && isPwdResetPage===false">
       <Login />
     </section>
 
-    <section v-else>
+    <section v-if="isAuthenticated === true">
       <SideBar :user="user" />
       <div class="boxSize"></div>
       <div
@@ -16,6 +16,9 @@
 
       <router-view v-if="user" :user="user"></router-view>
     </section>
+    <section v-if="isPwdResetPage === true">
+      <ResetPassword />
+    </section>
   </div>
 </template>
 
@@ -23,6 +26,8 @@
 <script>
 import SideBar from "@/components/SideBar.vue";
 import Login from "@/views/Login.vue";
+import ResetPassword from "@/views/Password_reset.vue";
+
 import axios from "axios";
 import { mapState } from "vuex";
 
@@ -30,7 +35,8 @@ export default {
   name: "App",
   components: {
     SideBar,
-    Login
+    Login,
+    ResetPassword
   },
   data() {
     return {
@@ -94,7 +100,8 @@ export default {
       user: "user",
       expires_in: "expires_in",
       created_at: "created_at",
-      token: "token"
+      token: "token",
+      isPwdResetPage: "isPwdResetPage"
     })
   },
   beforeDestroy() {
